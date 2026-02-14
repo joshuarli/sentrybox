@@ -1,8 +1,14 @@
 ssh-add ~/.ssh/sentry-github
 
+you can't have colima running at the same time,
+weird stuff happens
+
 limactl stop -f sentrybox; limactl delete sentrybox
 
-limactl start --tty=false --log-level=debug sentrybox.yml
+limactl start --tty=false sentrybox.yml
+
+# while it's starting (but after ssh is ready), you can view provisioning logs
+limactl shell sentrybox -- sudo tail -f /var/log/cloud-init-output.log
 
 limactl shell sentrybox claude-shell
 
@@ -15,6 +21,12 @@ open so you can `sudo apt ...` and do whatever you need
 
 
 ## TODO
+
++ sudo -iu claude bash install-devenv.sh
+Installing dependencies...
+
+this needs to say y by default
+
 
 File "/home/claude/code/sentry/devenv/sync.py", line 135, in main
     cfg["node"][constants.SYSTEM_MACHINE],

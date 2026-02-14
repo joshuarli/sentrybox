@@ -44,7 +44,7 @@ provision:
         -o /home/claude/install-devenv.sh
       chown claude:claude /home/claude/install-devenv.sh
 
-      sudo -iu claude bash install-devenv.sh
+      yes | sudo -iu claude bash install-devenv.sh
 
       # currently this'll fail due to post_fetch complaining we need to install chromium-chromedriver
       sudo -iu claude devenv fetch sentry || true
