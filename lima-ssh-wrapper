@@ -20,6 +20,6 @@ else
   exec ssh -F "${HOME}/.lima/${LIMA_VM_NAME}/ssh.config" "lima-${LIMA_VM_NAME}" "
     chmod o+rx \"\$(dirname \"\$SSH_AUTH_SOCK\")\"
     chmod o+rw \"\$SSH_AUTH_SOCK\"
-    sudo --preserve-env=SSH_AUTH_SOCK -iu claude bash -c 'cd /home/claude/code/sentry && exec \"\$@\"' -- $*
+    sudo --preserve-env=SSH_AUTH_SOCK -iu claude bash -c 'cd /home/claude/code/sentry && \"\$@\"' -- $*
   "
 fi
