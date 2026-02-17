@@ -7,7 +7,13 @@
 if [ -n "$SSH_AUTH_SOCK" ] && [ -S "$SSH_AUTH_SOCK" ]; then
   chmod o+rx "$(dirname "$SSH_AUTH_SOCK")"
   chmod o+rw "$SSH_AUTH_SOCK"
-  exec sudo --preserve-env=SSH_AUTH_SOCK -iu claude bash -c 'cd ~/code/sentry && exec bash'
+  SUDO="sudo --preserve-env=SSH_AUTH_SOCK -iu claude"
 else
-  exec sudo -iu claude bash -c 'cd ~/code/sentry && exec bash'
+  SUDO="sudo -iu claude"
+fi
+
+if [ $# -eq 0 ]; then
+  exec $SUDO bash -c 'cd ~/code/sentry && exec bash'
+else
+  exec $SUDO "$@"
 fi

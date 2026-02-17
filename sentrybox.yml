@@ -40,6 +40,10 @@ provision:
       sudo -iu claude /etc/sentrybox/bin/setup-claude.sh
       sudo -iu claude /etc/sentrybox/bin/sync-backend.sh
 
+portForwards:
+  - guestPortRange: [1, 65535]
+    ignore: true
+
 containerd:
   system: false
   user: false
