@@ -5,4 +5,4 @@ build:
 		send-keys 'sleep 10 && limactl shell --workdir=/tmp sentrybox -- sudo tail -f /var/log/cloud-init-output.log' Enter
 
 ssh:
-	limactl shell --workdir=/tmp sentrybox /etc/sentrybox/bin/claude-shell
+	LIMA_VM_NAME=sentrybox ./lima-ssh-wrapper

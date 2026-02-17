@@ -22,8 +22,7 @@ i discovered this test pollution which consistently fails:
 `pytest tests/sentry/api/endpoints/test_system_options.py::SystemOptionsTest::test_put_self_hosted_superuser_access_allowed tests/sentry/web/frontend/test_oauth_authorize.py::OAuthAuthorizeCustomSchemeTest::test_code_flow_unauthenticated_custom_scheme`
 
 to work on this i want you to work entirely within the VM:
-- you can execute commands in the dev environment vm like so: `limactl shell --workdir=/tmp sentrybox /etc/sentrybox/bin/claude-shell -- bash -c 'echo $PWD'`
-  - important to use `--workdir=/tmp` to avoid bash cd no such file or directory errors (which are ok to have)
+- you can execute commands in the dev environment vm like so: `LIMA_VM_NAME=sentrybox ./lima-ssh-wrapper pytest ...`
 - fetch then checkout the sentry commit at `d70943f39292efc10116bf81853b5381893c5d33`
   - sentry is located at `/home/claude/code/sentry`
 - run `uv sync --frozen --inexact --active && python3 -m tools.fast_editable --path .` to resync dependencies
@@ -31,6 +30,14 @@ to work on this i want you to work entirely within the VM:
 - figure out the fix
 - create a new branch with your changes with highly descriptive commit messages
 - pushing can be done with `git push --set-upstream origin BRANCH_NAME`
+
+~
+
+
+
+SHELL=~/bin/lima-ssh-wrapper
+
+Now whenever Claude tries to run `git status` it actually runs `ssh default -- git status`
 
 
 ## todo
@@ -53,15 +60,6 @@ limactl start --tty=false sentrybox.yml
 
 # while it's starting (but after ssh is ready), you can view provisioning logs
 limactl shell --workdir=/tmp sentrybox -- sudo tail -f /var/log/cloud-init-output.log
-
-limactl shell --workdir=/tmp sentrybox /etc/sentrybox/bin/claude-shell
-
-  This runs as the Lima user (who has sudo), opens the
-  socket permissions, then switches to claude with
-  SSH_AUTH_SOCK preserved.
-
-run a command as `claude`:
-limactl shell --workdir=/tmp sentrybox /etc/sentrybox/bin/claude-shell -- bash -c 'echo $PWD'
 
 ~
 

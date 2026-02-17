@@ -13,7 +13,7 @@ disk: "64GiB"
 
 mounts:
   # XXX: {{.Dir}} resolves to /Users/josh/.lima/sentrybox, not here
-  - location: "/Users/josh/dev/sentry-vm/bin"
+  - location: "/Users/josh/dev/sentrybox/bin"
     mountPoint: /etc/sentrybox/bin
     writable: false
 
