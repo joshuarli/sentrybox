@@ -1,0 +1,13 @@
+#!/bin/bash
+
+# This runs as the Lima user (who has sudo), opens the
+# socket permissions, then switches to claude with
+# SSH_AUTH_SOCK preserved.
+
+if [ -n "$SSH_AUTH_SOCK" ] && [ -S "$SSH_AUTH_SOCK" ]; then
+  chmod o+rx "$(dirname "$SSH_AUTH_SOCK")"
+  chmod o+rw "$SSH_AUTH_SOCK"
+  exec sudo --preserve-env=SSH_AUTH_SOCK -iu claude bash -c 'cd ~/code/sentry && exec bash'
+else
+  exec sudo -iu claude bash -c 'cd ~/code/sentry && exec bash'
+fi
