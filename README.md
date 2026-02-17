@@ -15,7 +15,7 @@ ssh-add ~/.ssh/sentry-github
 make build
 make ssh
 
-TODO: define local skill
+TODO: define a skill for below. also need instructions on how to more seamlessly code within the vm
 
 i discovered this test pollution which consistently fails:
 
@@ -23,6 +23,7 @@ i discovered this test pollution which consistently fails:
 
 to work on this i want you to work entirely within the VM:
 - you can execute commands in the dev environment vm like so: `limactl shell --workdir=/tmp sentrybox /etc/sentrybox/bin/claude-shell -- bash -c 'echo $PWD'`
+  - important to use `--workdir=/tmp` to avoid bash cd no such file or directory errors (which are ok to have)
 - fetch then checkout the sentry commit at `d70943f39292efc10116bf81853b5381893c5d33`
   - sentry is located at `/home/claude/code/sentry`
 - run `uv sync --frozen --inexact --active && python3 -m tools.fast_editable --path .` to resync dependencies
