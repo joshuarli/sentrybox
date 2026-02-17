@@ -13,32 +13,24 @@ user ssh credentials are forwarded to the VM so the VM itself can push PRs; no n
 
 ssh-add ~/.ssh/sentry-github
 make build
-make ssh
 
-TODO: define a skill for below. also need instructions on how to more seamlessly code within the vm
 
-i discovered this test pollution which consistently fails:
+## example prompt
+
+i discovered this test pollution which consistently fails on sentry @ 407f35c12da97a1be02b7289251ffd5133e5099f:
 
 `pytest tests/sentry/api/endpoints/test_system_options.py::SystemOptionsTest::test_put_self_hosted_superuser_access_allowed tests/sentry/web/frontend/test_oauth_authorize.py::OAuthAuthorizeCustomSchemeTest::test_code_flow_unauthenticated_custom_scheme`
 
 to work on this i want you to work entirely within the VM:
 - you MUST ONLY execute commands in the dev environment vm by prefixing every command with: `LIMA_VM_NAME=sentrybox ./lima-ssh-wrapper`
   - the working directory for these commands is inside a sentry checkout in the VM at `/home/claude/code/sentry`
-- fetch then checkout the sentry commit at `d70943f39292efc10116bf81853b5381893c5d33`
-  - for example: `LIMA_VM_NAME=sentrybox ./lima-ssh-wrapper 'git fetch origin d70943f39292efc10116bf81853b5381893c5d33'`
+- fetch then checkout the sentry commit at `407f35c12da97a1be02b7289251ffd5133e5099f`
+  - for example: `LIMA_VM_NAME=sentrybox ./lima-ssh-wrapper 'git fetch origin 407f35c12da97a1be02b7289251ffd5133e5099f'`
 - run `LIMA_VM_NAME=sentrybox ./lima-ssh-wrapper 'uv sync --frozen --inexact --active' && LIMA_VM_NAME=sentrybox ./lima-ssh-wrapper 'python3 -m tools.fast_editable --path .'` to resync dependencies
 - run that pytest command to reproduce the error
 - figure out the fix
 - create a new branch with your changes with highly descriptive commit messages
 - pushing can be done with `LIMA_VM_NAME=sentrybox ./lima-ssh-wrapper 'git push --set-upstream origin BRANCH_NAME'`
-
-~
-
-
-
-SHELL=~/bin/lima-ssh-wrapper
-
-Now whenever Claude tries to run `git status` it actually runs `ssh default -- git status`
 
 
 ## todo
