@@ -50,3 +50,21 @@ to work on this i want you to work entirely within the VM:
 
 why no devenv?
 - devenv is for maintaining a long-lived dev environment; these vms are ephemeral and have an intended lifetime tied to a claude task
+
+
+## limitations
+
+Local lima-based sentry VMs will quickly exhaust local resources.
+
+On top of that, checkpointing isn't feasible.
+
+Virtualization.framework does not expose:
+- RAM snapshot APIs
+- CPU state capture
+- savevm / loadvm equivalents
+- External disk snapshot hooks
+
+So you cannot:
+- Pause a VM and serialize its execution state
+- Resume it later exactly where it left off
+- Create hypervisor-level checkpoints
