@@ -1,0 +1,5 @@
+#!/bin/sh
+LIMA_VM_NAME=ubuntu
+ssh -t -F "${HOME}/.lima/${LIMA_VM_NAME}/ssh.config" "lima-${LIMA_VM_NAME}" "
+    sudo -iu ubuntu bash -c 'cd /home/ubuntu && exec bash'
+"
