@@ -45,3 +45,8 @@ to work on this i want you to work entirely within the VM:
 - create a new branch with your changes with highly descriptive commit messages
 - pushing can be done with `LIMA_VM_NAME=sentrybox ./lima-ssh-wrapper 'git push --set-upstream origin BRANCH_NAME'`
 ```
+
+## faq
+
+why no devenv?
+- devenv is for maintaining a long-lived dev environment; these vms are ephemeral and have an intended lifetime tied to a claude task
